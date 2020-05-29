@@ -1,18 +1,18 @@
-<section *ngIf="clickedButton">
-  <div *ngIf="!waitingForADish && dish else loading">
-    <p>{{ dish.name }}</p>
+<section class="dishInfo">
+  <div *ngIf="clickedButton">
+    <p *ngIf="!waitingForADish && dish else loading">{{ dish.name }}</p>
   </div>
   <ng-template #loading>
     <mat-spinner></mat-spinner>
   </ng-template>
 </section>
+<section class="buttons">
+  <button mat-raised-button
+          (click)="getRandomDish()">random</button>
 
-<button mat-raised-button
-        (click)="getRandomDish()">random</button>
-
-<button mat-raised-button
-        (click)="clearDishInfo()">clear info</button>
-
+  <button mat-raised-button
+          (click)="clearDishInfo()">clear info</button>
+</section>
 
 
 <!--<style>-->
