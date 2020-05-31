@@ -14,6 +14,7 @@ export class AppComponent {
 
   // dishes: Dish[];
   dish: Dish;
+  getErrorMsg: string
 
   constructor(private dishesService: DishesService) {}
 
@@ -30,9 +31,22 @@ export class AppComponent {
           return data[this.generateRandomNumber(Object.keys(data).length)];
         })
       )
-      .subscribe(data => this.dish = data
+      .subscribe(
+        data => {
+          console.log('success front');
+          this.dish = data;
+        },
+        err => {
+          console.log('err front');
+          this.waitingForADish = false;
+          this.getErrorMsg = err;
+          console.log(err);
+          },
+        () => {
+          console.log('complete front');
+          this.waitingForADish = false;
+        }
       );
-    this.waitingForADish = false;
   }
 
   clearDishInfo() {
