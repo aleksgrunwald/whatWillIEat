@@ -14,12 +14,11 @@ export class DishesService {
     return this.httpClient.get('http://localhost:3000/dishes')
       .pipe(
         catchError(this.handleError),
-        retry(3),
+        retry(1),
       );
   }
 
   handleError(error: HttpErrorResponse) {
-    console.log('errr');
     let errorMessage: string;
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;

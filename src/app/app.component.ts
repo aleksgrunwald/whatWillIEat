@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DishesService } from './dishes.service';
 import {Dish} from './dish';
-import {map, take} from 'rxjs/operators';
+import {catchError, map, take} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -27,26 +28,34 @@ export class AppComponent {
     this.waitingForADish = true;
     this.dishesService.getDishes()
       .pipe(
-        map(data => {
-          return data[this.generateRandomNumber(Object.keys(data).length)];
-        })
+        catchError(err => {
+          console.log('component error caught::  ' + err);
+          return of([err]);
+        }),
+        map(data => data[this.generateRandomNumber(Object.keys(data).length)])
       )
       .subscribe(
         data => {
+          if (data == null) {
+            console.log('EMPTY dataaa');
+          }
           console.log('success front');
           this.dish = data;
         },
-        err => {
-          console.log('err front');
+        error => {
+          console.log('err front::  ' + error);
           this.waitingForADish = false;
-          this.getErrorMsg = err;
-          console.log(err);
+          this.getErrorMsg = error;
           },
         () => {
           console.log('complete front');
           this.waitingForADish = false;
         }
       );
+  }
+
+  searchRecipeGoogle() {
+    window.open('http://google.com/search?q=' + this.dish.name);
   }
 
   clearDishInfo() {
