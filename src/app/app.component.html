@@ -1,7 +1,8 @@
 <section class="dishInfo">
-  <div *ngIf="clickedButton">
+  <div *ngIf="!waitingForADish && dishes else loadingOrError">
     <!--<mat-spinner></mat-spinner>-->
-    <div class="dishVisible" *ngIf="!waitingForADish && dish else loadingOrError">
+    <div *ngFor="let dish of dishes"
+         class="dishVisible">
       <p class="dishName">
       {{ dish.name }}
       </p>
@@ -22,6 +23,9 @@
 <section class="buttons">
   <button mat-raised-button
           (click)="getRandomDish()">random
+  </button>
+  <button mat-raised-button
+          (click)="findThreeDishes()">find 3
   </button>
 
   <button mat-raised-button
