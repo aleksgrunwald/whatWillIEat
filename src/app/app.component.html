@@ -1,16 +1,15 @@
 <section class="dishInfo">
   <div *ngIf="clickedButton">
-    <p *ngIf="!waitingForADish && dish else loadingOrError"
-         class="dishName">
+    <!--<mat-spinner></mat-spinner>-->
+    <div class="dishVisible" *ngIf="!waitingForADish && dish else loadingOrError">
+      <p class="dishName">
       {{ dish.name }}
-    </p>
+      </p>
+      <button mat-raised-button
+              (click)="searchRecipeGoogle()">recipe
+      </button>
+    </div>
   </div>
-  <button  mat-raised-button
-           (click)="searchRecipeGoogle()">recipe
-    <!--<input-->
-      <!--class="inputSearchGoogle"-->
-      <!--name="dish" #inputDish>-->
-  </button>
   <ng-template #loadingOrError>
     <ng-container *ngIf="getErrorMsg else spinner">
         {{ getErrorMsg }}
